@@ -1,0 +1,39 @@
+{
+    "tasks": [
+        {
+            "type": "shell",
+            "label": "C++: meson build for linux",
+            "command": "meson",
+            "args": [
+                "compile",
+                "-C",
+                "./builddir_linux"
+            ],
+            "problemMatcher": [
+                "$gcc"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
+        },
+        {
+            "type": "shell",
+            "label": "C++: meson build for wasm",
+            "command": "meson",
+            "args": [
+                "compile",
+                "-C",
+                "./builddir_wasm"
+            ],
+            "problemMatcher": [
+                "$gcc"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
+        }
+    ],
+    "version": "2.0.0"
+}

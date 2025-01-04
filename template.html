@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta viewport="width=device-width, initial-scale=1">
+    <title>RayTracer</title>
+    <meta name="description" content="Raytracer built from scratch, compiled to WebAssembly">
+    <meta name="author" content="Juan Torrente">
+
+    <style type="text/css">
+        body {
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            background-color: #000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            height: 100vh;
+        }
+
+        canvas {
+            background-color: red;
+            width: 100vw;
+            height: 100vh;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Create the canvas that the C++ code will draw into -->
+    <canvas id="canvas" oncontextmenu="event.preventDefault()"></canvas>
+
+    <!-- Allow the C++ to access the canvas element --> 
+    <script type='text/javascript'>
+        var Module = {
+            canvas: (function() { return document.getElementById('canvas'); })()
+        };
+    </script>
+    
+    {{{ SCRIPT }}}
+</body>
+
+</html>

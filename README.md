@@ -1,0 +1,1 @@
+meson compile -C builddir_wasm; meson compile -C builddir_linux

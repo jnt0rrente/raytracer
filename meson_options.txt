@@ -1,0 +1,1 @@
+option('target', type : 'combo', choices : ['linux', 'wasm'], value : 'linux')
