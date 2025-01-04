@@ -50,6 +50,8 @@ elif target == 'wasm'
     '--shell-file', 'template.html',
     '-sTOTAL_MEMORY=67108864',
     '-sALLOW_MEMORY_GROWTH=1',
+    '-sEXPORTED_RUNTIME_METHODS=["ccall","cwrap"]',
+    '-sFORCE_FILESYSTEM=1',
     '-O2',
   ]
   add_project_arguments(cpp_args, language: 'cpp')

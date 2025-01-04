@@ -9,6 +9,22 @@
 #include <fstream>
 #include <png.h>
 
+#ifdef __EMSCRIPTEN__
+EM_JS(void, download_image_js, (const char *format, const uint8_t *data, size_t size), {
+    console.log('Downloading image...');
+    var data = new Uint8Array(HEAPU8.buffer, data, size);
+    var blob = new Blob([data], { type: 'application/octet-stream' });
+    var url = URL.createObjectURL(blob);
+    var a = document.createElement('a');
+    a.href = url;
+    a.download = 'image.' + UTF8ToString(format);
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+});
+#endif
+
 RenderTarget::RenderTarget(std::vector<Color> pixels, int width, int height)
     : width(width), height(height), pixels(pixels)
 {
@@ -72,23 +88,9 @@ void RenderTarget::save_image(const std::string &format)
         imageData = save_png_to_memory();
 
         #ifdef __EMSCRIPTEN__
-        EM_ASM({
-            console.log('Downloading image...');
-            var data = new Uint8Array(HEAPU8.buffer, $0, $1);
-            var blob = new Blob([data], { type: 'application/octet-stream' });
-            var url = URL.createObjectURL(blob);
-            var a = document.createElement('a');
-            a.href = url;
-            a.download = 'image.' + UTF8ToString($2);
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
-            URL.revokeObjectURL(url);
-        }, imageData.data(), imageData.size(), format.c_str());
+        download_image_js(format.c_str(), imageData.data(), imageData.size());
         #else
-
         save_png_to_file(path);
-
         #endif
     }
     else
